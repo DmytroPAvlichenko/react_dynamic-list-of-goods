@@ -9,17 +9,27 @@ import { Good } from './types/Good';
 
 export const App: React.FC = () => {
   const [goodsList, setGoodsList] = useState<Good[]>([]);
+  const [errorMessage, setErrorMessage] = useState('');
 
   function goodsAll() {
-    return getAll().then(setGoodsList);
+    return getAll()
+      .then(setGoodsList)
+      .catch(eror => setErrorMessage(eror))
+      .finally();
   }
 
   function goodsAll5First() {
-    return get5First().then(setGoodsList);
+    return get5First()
+      .then(setGoodsList)
+      .catch(eror => setErrorMessage(eror))
+      .finally();
   }
 
   function goodsAllRed() {
-    return getRedGoods().then(setGoodsList);
+    return getRedGoods()
+      .then(setGoodsList)
+      .catch(eror => setErrorMessage(eror))
+      .finally();
   }
 
   return (
@@ -42,7 +52,7 @@ export const App: React.FC = () => {
         Load red goods
       </button>
 
-      <GoodsList goods={goodsList} />
+      {errorMessage && <GoodsList goods={goodsList} />}
     </div>
   );
 };
