@@ -4,7 +4,7 @@ import { GoodsList } from './GoodsList';
 
 import { getAll, get5First, getRedGoods } from './api/goods';
 import { Good } from './types/Good';
-// or
+
 // import * as goodsAPI from './api/goods';
 
 export const App: React.FC = () => {
@@ -14,22 +14,19 @@ export const App: React.FC = () => {
   function goodsAll() {
     return getAll()
       .then(setGoodsList)
-      .catch(eror => setErrorMessage(eror))
-      .finally();
+      .catch(() => setErrorMessage('Error when receiving goods'));
   }
 
   function goodsAll5First() {
     return get5First()
       .then(setGoodsList)
-      .catch(eror => setErrorMessage(eror))
-      .finally();
+      .catch(() => setErrorMessage('Error when receiving goods'));
   }
 
   function goodsAllRed() {
     return getRedGoods()
       .then(setGoodsList)
-      .catch(eror => setErrorMessage(eror))
-      .finally();
+      .catch(() => setErrorMessage('Error when receiving goods'));
   }
 
   return (
@@ -52,7 +49,11 @@ export const App: React.FC = () => {
         Load red goods
       </button>
 
-      {errorMessage && <GoodsList goods={goodsList} />}
+      {errorMessage ? (
+        <div className="error">{errorMessage}</div>
+      ) : (
+        <GoodsList goods={goodsList} />
+      )}
     </div>
   );
 };
